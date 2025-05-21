@@ -1,0 +1,68 @@
+name: "Docker Compose Deploy via SSH"
+description: "Deploy your app with Docker Compose over SSH, using known_hosts for verification"
+
+inputs:
+  ssh_host:
+    description: "SSH Host"
+    required: true
+  ssh_user:
+    description: "SSH User"
+    required: true
+  ssh_private_key:
+    description: "SSH Private Key"
+    required: true
+  ssh_port:
+    description: "SSH Port"
+    required: false
+    default: "22"
+  ssh_known_hosts:
+    description: "Contents of known_hosts file to verify server identity"
+    required: false
+  project_path:
+    description: "Remote path to deploy to"
+    required: true
+  pre_command:
+    description: "Command to run on remote before docker-compose"
+    required: false
+    default: ""
+  post_command:
+    description: "Command to run on remote after docker-compose"
+    required: false
+    default: ""
+  deploy_file:
+    description: "Path of the docker-compose file relative to project root"
+    required: false
+    default: "docker-compose.yml"
+  extra_files:
+    description: "Comma-separated list of extra files/folders to upload"
+    required: false
+    default: ""
+  compose_pull:
+    description: "Pull images before starting (true/false)"
+    required: false
+    default: "true"
+  compose_build:
+    description: "Build images before starting (true/false)"
+    required: false
+    default: "false"
+  compose_args:
+    description: "Extra arguments passed directly to 'docker compose up'"
+    required: false
+    default: "--remove-orphans"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  env:
+    SSH_HOST: ${{ inputs.ssh_host }}
+    SSH_USER: ${{ inputs.ssh_user }}
+    SSH_PRIVATE_KEY: ${{ inputs.ssh_private_key }}
+    SSH_PORT: ${{ inputs.ssh_port }}
+    SSH_KNOWN_HOSTS: ${{ inputs.ssh_known_hosts }}
+    PROJECT_PATH: ${{ inputs.project_path }}
+    PRE_COMMAND: ${{ inputs.pre_command }}
+    POST_COMMAND: ${{ inputs.post_command }}
+    DEPLOY_FILE: ${{ inputs.deploy_file }}
+    EXTRA_FILES: ${{ inputs.extra_files }}
+    COMPOSE_PULL: ${{ inputs.compose_pull }}
+    COMPOSE_BUILD: ${{ inputs.compose_build }}
+    COMPOSE_ARGS: ${{ inputs.compose_args }}

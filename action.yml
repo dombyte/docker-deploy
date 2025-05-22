@@ -1,8 +1,8 @@
-name: "Docker Compose Deploy via SSH"
+name: "Docker Deploy Action via SSH"
 description: "Deploy your app with Docker Compose over SSH, using known_hosts for verification"
-# branding:
-#   icon: "server"
-#   color: "blue"
+branding:
+  icon: "server"
+  color: "blue"
 
 inputs:
   ssh_host:

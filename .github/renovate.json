@@ -8,63 +8,43 @@
     ":rebaseStalePrs",
     "group:recommended"
   ],
-  "labels": [
-    "renovate"
-  ],
+  "labels": ["renovate"],
   "separateMinorPatch": true,
   "stopUpdatingLabel": "renovate/stop_updating",
   "packageRules": [
     {
       "description": "Automerge only for Patches",
-      "matchManagers": [
-        "dockerfile"
-      ],
-      "matchUpdateTypes": [
-        "patch"
-      ],
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["patch"],
       "automerge": true
     },
     {
-      "description": "No Auto-PRs for Major-Updates",
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "enabled": false
+      "description": "Auto-PRs for Major-Updates",
+      "matchUpdateTypes": ["major"],
+      "enabled": true
     },
     {
+      "description": "Auto-PRs for Major-Updates",
+      "matchUpdateTypes": ["minor"],
+      "enabled": true
+    },
+
+    {
       "description": "Support for Dockerfile",
-      "matchManagers": [
-        "dockerfile"
-      ],
+      "matchManagers": ["dockerfile"],
       "groupName": "Docker image updates"
     },
     {
       "description": "Support for GitHub Actions",
-      "matchManagers": [
-        "github-actions"
-      ],
+      "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions updates"
-    },
-    {
-      "description": "Security-Updates for Docker und GitHub Actions auto merge",
-      "matchManagers": [
-        "dockerfile",
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "security"
-      ],
-      "automerge": true,
-      "automergeType": "pr"
     }
   ],
   "customManagers": [
     {
       "customType": "regex",
       "description": "Update GitHub Actions usage in README",
-      "managerFilePatterns": [
-        "/^README\\.md$/"
-      ],
+      "managerFilePatterns": ["/^README\\.md$/"],
       "matchStrings": [
         "uses:\\s*dombyte/docker-deploy@(?<currentValue>[^\\s]+)"
       ],

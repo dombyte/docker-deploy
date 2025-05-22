@@ -61,7 +61,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🚀 Deploy via Docker Compose over SSH
-        uses: dombyte/docker-deploy@v1
+        uses: dombyte/docker-deploy@v0.1.0
         with:
           ssh_host: ${{ secrets.SSH_HOST }}
           ssh_user: ${{ secrets.SSH_USER }}

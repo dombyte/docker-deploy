@@ -1,0 +1,57 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":enableVulnerabilityAlertsWithLabel('security')",
+    ":preserveSemverRanges",
+    ":rebaseStalePrs",
+    "group:recommended"
+  ],
+  "labels": ["renovate"],
+  "separateMinorPatch": true,
+  "stopUpdatingLabel": "renovate/stop_updating",
+
+  "packageRules": [
+    {
+      "description": "Automerge only for Patches",
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "description": "No Auto-PRs for Major-Updates",
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Support for Dockerfile",
+      "matchManagers": ["dockerfile"],
+      "groupName": "Docker image updates"
+    },
+    {
+      "description": "Support for GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions updates"
+    },
+    {
+      "description": "Security-Updates for Docker und GitHub Actions auto merge",
+      "matchManagers": ["dockerfile", "github-actions"],
+      "matchUpdateTypes": ["security"],
+      "automerge": true,
+      "automergeType": "pr"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update GitHub Actions usage in README",
+      "fileMatch": ["^README\\.md$"],
+      "matchStrings": [
+        "uses:\\s*dombyte/docker-deploy@(?<currentValue>[^\\s]+)"
+      ],
+      "depNameTemplate": "dombyte/docker-deploy",
+      "datasourceTemplate": "github-releases"
+    }
+  ]
+}
